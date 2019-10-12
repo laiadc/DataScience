@@ -1,7 +1,7 @@
 from flask import Flask, make_response
 from flask import abort, jsonify, redirect, render_template
 from flask import request, url_for
-from .forms import ProductForm
+from forms import ProductForm
 from flask import Flask
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -9,8 +9,8 @@ import bson
 from flask_login import LoginManager, current_user
 from flask_login import login_user, logout_user
 from flask_login import login_required
-from .forms import LoginForm
-from .models import User
+from forms import LoginForm
+from models import User
 
 import json
 
