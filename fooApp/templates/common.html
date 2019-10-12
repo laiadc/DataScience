@@ -1,0 +1,36 @@
+{% macro detail(product,
+      link_title=false,show_edit=true,
+      show_description=true) %}
+    <div class="product-detail">
+      {% if link_title %}
+        <p>
+        <h3>
+          <a href="{{ url_for('product_detail',
+            product_id=product._id|string()) }}">
+            {{ product.name }}</a>
+        </h3>
+      </p>
+      {% else %}
+      <p>
+        <h3>{{ product.name }}</h3>
+      </p>
+      {% endif %}
+      <p> Price: {{ product.price }} €</p>
+
+      {% if show_description and product.description %}
+      <div class="row">
+        <p class="span5">{{ product.description }}</p>
+      </div>
+      {% endif %}
+      {% if show_edit %}
+      <div class="edit-controls">
+        <i class="icon-pencil"></i>
+        <a href="{{ url_for('product_edit', product_id=product._id|string()) }}">Edit</a>
+        <span class="inline-pad"></span>
+        <i class="icon-trash"></i>
+        <a class="product-delete-link" href="#" data-delete-url="{{ url_for('product_delete', product_id=product._id|string()) }}">Delete</a>
+      </div>
+    {% endif %}
+
+    </div>
+    {% endmacro %}
