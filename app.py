@@ -42,7 +42,15 @@ def index():
   '/product/<product_id>/edit/', #Methods: the actions you allow to do in this URL
   methods=['GET', 'POST']) #POST: Replace data in the Database GET: Obtain information of database
 def product_edit(product_id):
-  form = ProductForm(request.form)
+  """Provide HTML form to edit a given product """
+  product = mongo.db.products.find_one({"_id":ObjectId(product_id)})
+  if product is None:
+    abort(404)
+  form = ProductForm(request.form, data=product)
+  if request.method=='POST' and form.validate():
+    mongo.db.products.replace_one(product,form.data)
+    #Success! Send the user back to the detailed view
+    return redirect(url_for('products_list'))
   return render_template('product/edit.html', form=form)
 
 @login_required
@@ -148,5 +156,8 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run()
+  app.run(
+      host="0.0.0.0",
+      port=5000
+  )
 
